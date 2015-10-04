@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class game_area_manager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class game_area_manager : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
 {
 
     public GameObject m_input;
@@ -28,29 +28,54 @@ public class game_area_manager : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         m_down = Input.GetMouseButton(0);
 
-        if( m_in && m_down )
+        if( m_in && m_down && !m_start_no_in )
         {
-            m_pane_manager.GetComponent<cross_word_pazzle_move>().setIsMove(true);
+            OnButtonInArea();
         }
 
         if( !m_down )
         {
-            m_pane_manager.GetComponent<cross_word_pazzle_move>().setIsMove(false);
+            OnNoButtonInArea();
+
+            m_start_no_in = false;
         }
-
-        Debug.Log(m_down);
-
 	}
+
+    void OnButtonInArea()
+    {
+        m_pane_manager.GetComponent<cross_word_pazzle_move>().setIsMove(true);
+    }
+
+    void OnNoButtonInArea()
+    {
+        m_pane_manager.GetComponent<cross_word_pazzle_move>().setIsMove(false);
+    }
 
     bool m_in = false;
     bool m_down = false;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    bool m_start_no_in = false;
+/*
+    public void OnMove(PointerEventData eventData)
     {
+        if (m_down)
+        {
+            m_start_no_in = true;
+        }
+
+        m_in = true;
+    }
+*/
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if( m_down )
+        {
+            m_start_no_in = true;
+        }
+
         m_in = true;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
         m_in = false;
     }

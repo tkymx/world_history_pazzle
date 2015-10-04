@@ -3,13 +3,14 @@ using System.Collections;
 
 public class cross_word_pazzle_move : MonoBehaviour {
 
+    public float sensitivity = 30.0f;
+
+
     private bool m_isMove;
     public void setIsMove(bool f)
     {
         m_isMove = f;
     }
-
-    private float sensitivity = 10.0f;
 
 	// Use this for initialization
 	void Start () {

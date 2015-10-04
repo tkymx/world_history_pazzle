@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Text;
 
 public class InputManager : MonoBehaviour {
 
@@ -18,7 +19,41 @@ public class InputManager : MonoBehaviour {
 
     public void set_moji(string moji)
     {
+        // 入力
+        string input = m_current_panel.GetComponentInChildren<Text>().text;
+
+        if (moji == "”")
+        {
+            char dakuten    = '\x3099';   // U+3099: COMBINING KATAKANA-HIRAGANA VOICED SOUND MARK
+            string added = (input + dakuten).Normalize(NormalizationForm.FormC);
+            if (input.Length == added.Length)
+            {
+                moji = added;
+            }
+            else
+            {
+                moji = input;
+            }
+        }
+        if (moji == "゜")
+        {
+            char handakuten = '\x309A';   // U+309A: COMBINING KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK
+            string added = (input + handakuten).Normalize(NormalizationForm.FormC);
+            if (input.Length == added.Length)
+            {
+                moji = added;
+            }
+            else
+            {
+                moji = input;
+            }
+        }
+
         m_current_panel.GetComponentInChildren<Text>().text = moji;
+    }
+
+    public void end_input()
+    {
         gameObject.SetActive(false);
     }
 
